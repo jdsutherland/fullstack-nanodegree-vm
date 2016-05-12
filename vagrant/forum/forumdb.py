@@ -1,13 +1,10 @@
-#
 # Database access functions for the web forum.
-# 
 
-import time
+from psycopg2 import connect
+from psycopg2.extras import (DictCursor,)
 
-## Database connection
-DB = []
 
-## Get posts from database.
+# Get posts from database.
 def GetAllPosts():
     '''Get all the posts from the database, sorted with the newest first.
 
@@ -16,16 +13,26 @@ def GetAllPosts():
       pointing to the post content, and 'time' key pointing to the time
       it was posted.
     '''
-    posts = [{'content': str(row[1]), 'time': str(row[0])} for row in DB]
-    posts.sort(key=lambda row: row['time'], reverse=True)
+    psql_conn = connect('dbname=forum')
+    query = 'SELECT content, time FROM posts ORDER BY time DESC'
+
+    dict_curs = psql_conn.cursor(cursor_factory=DictCursor)
+    dict_curs.execute(query)
+    posts = dict_curs.fetchall()
+    psql_conn.close()
     return posts
 
-## Add a post to the database.
+
+# Add a post to the database.
 def AddPost(content):
     '''Add a new post to the database.
 
     Args:
       content: The text content of the new post.
     '''
-    t = time.strftime('%c', time.localtime())
-    DB.append((t, content))
+    psql_conn = connect('dbname=forum')
+    query = "INSERT INTO posts (content) VALUES ('%s')" % content
+    curs = psql_conn.cursor()
+    curs.execute(query)
+    psql_conn.commit()
+    psql_conn.close()
