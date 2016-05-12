@@ -31,8 +31,7 @@ def AddPost(content):
       content: The text content of the new post.
     '''
     psql_conn = connect('dbname=forum')
-    query = "INSERT INTO posts (content) VALUES ('%s')" % content
     curs = psql_conn.cursor()
-    curs.execute(query)
+    curs.execute("INSERT INTO posts (content) VALUES (%s)", (content,))
     psql_conn.commit()
     psql_conn.close()
