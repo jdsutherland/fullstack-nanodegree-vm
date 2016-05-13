@@ -172,12 +172,10 @@ def test_pairings():
 
 if __name__ == '__main__':
     import sys
-
     test_count()
-    print 'success!'
+    test_standings_before_matches()
     sys.exit()
 
-    test_standings_before_matches()
     test_report_matches()
     test_pairings()
     print "Success!  All tests pass!"

@@ -22,7 +22,8 @@ def register_player(name):
     """
     conn = connect()
     curs = conn.cursor()
-    curs.execute('INSERT INTO players (name) VALUES (%s)', (name,))
+    curs.execute('INSERT INTO players (name, registered) VALUES (%s, TRUE)' \
+            , (name,))
     conn.commit()
     conn.close()
 
@@ -68,6 +69,16 @@ def player_standings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    conn = connect()
+    curs = conn.cursor()
+    curs.execute('SELECT * FROM player_standings')
+    result = curs.fetchall()
+
+    from pprint import pprint
+    pprint(result)
+
+    conn.close()
+    return result
 
 
 def report_match(winner, loser):
