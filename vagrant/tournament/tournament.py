@@ -22,8 +22,8 @@ def register_player(name):
     """
     conn = connect()
     curs = conn.cursor()
-    curs.execute('INSERT INTO players (name, registered) VALUES (%s, TRUE)' \
-            , (name,))
+    curs.execute('INSERT INTO players (name, registered) VALUES (%s, TRUE)',
+            (name,))
     conn.commit()
     conn.close()
 
@@ -50,7 +50,7 @@ def count_players():
     """Returns the number of players currently registered."""
     conn = connect()
     curs = conn.cursor()
-    curs.execute('SELECT * FROM registered_player_count')
+    curs.execute('SELECT COUNT(*) FROM players')
     result = curs.fetchone()
     conn.close()
     return result[0]
@@ -118,4 +118,3 @@ def swiss_pairings():
         pairings.append((id1, name1, id2, name2))
 
     return pairings
-
