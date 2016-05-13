@@ -145,11 +145,11 @@ def test_pairings():
         raise ValueError(
             "For eight players, swissPairings should return 4 pairs. Got \
                     {pairs}".format(pairs=len(pairings)))
-    pairings = [
-        (pid1, pname1, pid2, pname2),
-        (pid3, pname3, pid4, pname4),
-        (pid5, pname5, pid6, pname6),
-        (pid7, pname7, pid8, pname8)]
+
+    [(pid1, pname1, pid2, pname2),
+    (pid3, pname3, pid4, pname4),
+    (pid5, pname5, pid6, pname6),
+    (pid7, pname7, pid8, pname8)] = pairings
     possible_pairs = set([frozenset([id1, id3]), frozenset([id1, id5]),
                           frozenset([id1, id7]), frozenset([id3, id5]),
                           frozenset([id3, id7]), frozenset([id5, id7]),
@@ -171,11 +171,8 @@ def test_pairings():
 
 
 if __name__ == '__main__':
-    import sys
     test_count()
     test_standings_before_matches()
-    sys.exit()
-
     test_report_matches()
     test_pairings()
     print "Success!  All tests pass!"
